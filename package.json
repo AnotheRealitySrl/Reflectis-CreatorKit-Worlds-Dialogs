@@ -1,0 +1,15 @@
+{
+  "name": "com.anotherealitysrl.reflectis-creatorkit-worlds-dialogs",
+  "displayName": "Reflectis-CreatorKit-Worlds-Dialogs",
+  "version": "4.1.0",
+  "unity": "2020.1",
+  "description": "Reflectis Creator Kit Worlds Dialogs module",
+  "keywords": [
+    "unity"
+  ],
+  "category": "Unity",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnotheRealitySrl/Reflectis-CreatorKit-Worlds-Dialogs"
+  }
+}
