@@ -1,9 +1,10 @@
-using Reflectis.PLG.Dialogs;
+using Reflectis.SDK.Dialogs;
+
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace Reflectis.PLG.DialogsDialogsReflectis
+namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
     public class DialogPanelSpawner : MonoBehaviour
     {

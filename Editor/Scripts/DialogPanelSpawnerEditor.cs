@@ -1,11 +1,11 @@
-using Reflectis.PLG.DialogsDialogsReflectis;
 using UnityEditor;
+
 using UnityEngine;
 
-namespace Reflectis.PLG.DialogsReflectisEditor
+namespace Reflectis.CreatorKit.Worlds.Dialogs.Editor
 {
     [CustomEditor(typeof(DialogPanelSpawner))]
-    public class DialogPanelSpawnerEditor : Editor
+    public class DialogPanelSpawnerEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
