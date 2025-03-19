@@ -3,11 +3,11 @@ using Unity.VisualScripting;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
-    [UnitTitle("Reflectis Dialogs: Set Dialog")]
+    [UnitTitle("Reflectis Dialogs: Continue Dialog")]
     [UnitSurtitle("Dialogs")]
-    [UnitShortTitle("Set Dialog")]
+    [UnitShortTitle("Continue Dialog")]
     [UnitCategory("Reflectis\\Flow")]
-    public class SetDialogNode : Unit
+    public class ContinueDialogNode : Unit
     {
         [DoNotSerialize]
         [PortLabelHidden]
@@ -16,20 +16,20 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
         [PortLabelHidden]
         public ControlOutput OutputTrigger { get; private set; }
 
-        public ValueInput Talkable { get; private set; }
-        [PortLabel("Dialog Part")]
-        public ValueInput NewDialogPart { get; private set; }
+        public ValueInput DialogSystem { get; private set; }
+        [PortLabel("Dialog Option")]
+        public ValueInput DialogOption { get; private set; }
 
         protected override void Definition()
         {
-            Talkable = ValueInput<Talkable>(nameof(Talkable));
-            NewDialogPart = ValueInput<DialogPart>(nameof(NewDialogPart));
+            DialogSystem = ValueInput<DialogSystem>(nameof(DialogSystem));
+            DialogOption = ValueInput<int>(nameof(DialogOption), 0);
 
             InputTrigger = ControlInput(nameof(InputTrigger), (f) =>
             {
-                Talkable targetTalkable = f.GetValue<Talkable>(Talkable);
-                DialogPart newDialogPart = f.GetValue<DialogPart>(NewDialogPart);
-                targetTalkable.SetDialog(newDialogPart);
+                DialogSystem targetDialogSystem = f.GetValue<DialogSystem>(DialogSystem);
+                int dialogOption = f.GetValue<int>(DialogOption);
+                targetDialogSystem.ContinueDialog(dialogOption);
 
                 return OutputTrigger;
             });

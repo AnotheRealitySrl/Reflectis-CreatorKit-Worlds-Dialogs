@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customTypeTexts:
   - {fileID: 11500000, guid: b132656fae85ab341abe6bb0949d85a2, type: 3}
+  - {fileID: 11500000, guid: b1cf2ae49cf8cfd44a8ea08eae73337b, type: 3}
+  - {fileID: 11500000, guid: ef345aadb1b33434e8e83c43981da4b2, type: 3}
   customTypeNames: []
