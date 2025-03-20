@@ -1,19 +1,22 @@
-using UnityEngine;
+using Unity.VisualScripting;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs.Editor
 {
-    public class OnDialogNodeResetEventDescriptor : MonoBehaviour
+    [Descriptor(typeof(OnDialogNodeResetEventNode))]
+    public class OnDialogNodeResetEventDescriptor : EventUnitDescriptor<OnDialogNodeResetEventNode>
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public OnDialogNodeResetEventDescriptor(OnDialogNodeResetEventNode unit) : base(unit) { }
+
+        protected override string DefinedSummary()
         {
-        
+            return "This event will be triggered when the referenced Dialog Part gets " +
+                "its state reset to \"ToDo\" state. This happens whenever a dialogue " +
+                "sequence involving this dialong part/node gets completed or canceled.";
         }
 
-        // Update is called once per frame
-        void Update()
+        protected override void DefinedPort(IUnitPort port, UnitPortDescription description)
         {
-        
+            base.DefinedPort(port, description);
         }
     }
 }
