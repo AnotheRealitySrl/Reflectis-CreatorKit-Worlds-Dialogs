@@ -1,19 +1,21 @@
-using UnityEngine;
+using Unity.VisualScripting;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs.Editor
 {
-    public class DialogCanceledEventDescriptor : MonoBehaviour
+    [Descriptor(typeof(DialogCanceledEventNode))]
+    public class DialogCanceledEventDescriptor : EventUnitDescriptor<DialogCanceledEventNode>
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public DialogCanceledEventDescriptor(DialogCanceledEventNode unit) : base(unit) { }
+
+        protected override string DefinedSummary()
         {
-        
+            return "This event will be triggered when a dialog sequence on the " +
+                "referenced Dialog System gets canceled.";
         }
 
-        // Update is called once per frame
-        void Update()
+        protected override void DefinedPort(IUnitPort port, UnitPortDescription description)
         {
-        
+            base.DefinedPort(port, description);
         }
     }
 }

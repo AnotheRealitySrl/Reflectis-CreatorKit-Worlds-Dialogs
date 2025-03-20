@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 namespace Reflectis.CreatorKit.Worlds.Dialogs.Editor
 {
     [Descriptor(typeof(DialogSystemReadyEventNode))]
-    public class DialogSystemReadyEventDescriptor : UnitDescriptor<DialogSystemReadyEventNode>
+    public class DialogSystemReadyEventDescriptor : EventUnitDescriptor<DialogSystemReadyEventNode>
     {
         public DialogSystemReadyEventDescriptor(DialogSystemReadyEventNode unit) : base(unit) { }
 

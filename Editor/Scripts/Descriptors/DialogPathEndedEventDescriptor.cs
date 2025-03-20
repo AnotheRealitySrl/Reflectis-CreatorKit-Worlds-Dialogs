@@ -1,19 +1,23 @@
-using UnityEngine;
+using Unity.VisualScripting;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs.Editor
 {
-    public class DialogPathEndedEventDescriptor : MonoBehaviour
+    [Descriptor(typeof(DialogPathEndedEventNode))]
+    public class DialogPathEndedEventDescriptor : EventUnitDescriptor<DialogPathEndedEventNode>
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public DialogPathEndedEventDescriptor(DialogPathEndedEventNode unit) : base(unit) { }
+
+        protected override string DefinedSummary()
         {
-        
+            return "This event will be triggered when the Dialog System completes " +
+                "a dialog node that is at the end of a dialog sequence (i.e. a dialog " +
+                "node that has no other nodes connected to it through one of its " +
+                "exit ports).";
         }
 
-        // Update is called once per frame
-        void Update()
+        protected override void DefinedPort(IUnitPort port, UnitPortDescription description)
         {
-        
+            base.DefinedPort(port, description);
         }
     }
 }
