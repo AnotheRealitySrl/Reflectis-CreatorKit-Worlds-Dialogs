@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Reflectis.CreatorKit.Worlds.Dialogs
+namespace Reflectis.CreatorKit.Worlds.Dialogs.Editor
 {
-    public class DialogSystemReadyNode : MonoBehaviour
+    public class DialogCanceledEventDescriptor : MonoBehaviour
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()

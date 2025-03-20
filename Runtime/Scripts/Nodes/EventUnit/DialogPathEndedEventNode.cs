@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
-    public class DialogChanged : MonoBehaviour
+    public class DialogPathEndedEventNode : MonoBehaviour
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
