@@ -3,13 +3,13 @@ using Unity.VisualScripting;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
-    [UnitTitle("Reflectis Dialogs: On Dialog Node In Progress")]
+    [UnitTitle("Reflectis Dialogs: On Dialog Node Complete")]
     [UnitSurtitle("Dialogs")]
-    [UnitShortTitle("On Dialog Node In Progress")]
+    [UnitShortTitle("On Dialog Node Complete")]
     [UnitCategory("Events\\Reflectis")]
-    public class OnDialogNodeInProgressEventNode : EventUnit<Null>
+    public class OnDialogNodeCompletedEventNode : EventUnit<Null>
     {
-        public static string eventName = "OnDialogNodeInProgress";
+        public static string eventName = "OnDialogNodeCompleted";
 
         protected override bool register => true;
 
@@ -35,7 +35,7 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             {
                 dialogPartReference = flow.GetValue<DialogPart>(DialogPartReference);
             }
-            dialogPartReference.OnDialogInProgress.AddListener(OnDialogNodeInProgress);
+            dialogPartReference.OnDialogCompleted.AddListener(OnDialogNodeCompleted);
         }
 
         public override EventHook GetHook(GraphReference reference)
@@ -49,10 +49,10 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
         {
             base.Uninstantiate(instance);
 
-            dialogPartReference.OnDialogInProgress.RemoveListener(OnDialogNodeInProgress);
+            dialogPartReference.OnDialogCompleted.RemoveListener(OnDialogNodeCompleted);
         }
 
-        private void OnDialogNodeInProgress()
+        private void OnDialogNodeCompleted()
         {
             Trigger(graphReference, null);
         }

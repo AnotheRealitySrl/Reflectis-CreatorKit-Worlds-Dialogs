@@ -9,7 +9,7 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
     [UnitCategory("Events\\Reflectis")]
     public class OnDialogNodeResetEventNode : EventUnit<Null>
     {
-        public static string eventName = "DialogPathEnded";
+        public static string eventName = "OnDialogNodeReset";
 
         protected override bool register => true;
 

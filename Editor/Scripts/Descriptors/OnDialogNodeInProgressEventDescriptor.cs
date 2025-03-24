@@ -1,19 +1,23 @@
-using UnityEngine;
+using Unity.VisualScripting;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs.Editor
 {
-    public class OnDialogNodeInProgressEventDescriptor : MonoBehaviour
+    [Descriptor(typeof(OnDialogNodeInProgressEventNode))]
+    public class OnDialogNodeInProgressEventDescriptor : EventUnitDescriptor<OnDialogNodeInProgressEventNode>
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public OnDialogNodeInProgressEventDescriptor(OnDialogNodeInProgressEventNode unit) : base(unit) { }
+
+        protected override string DefinedSummary()
         {
-        
+            return "This event will be triggered when the referenced Dialog Part gets " +
+                "its state set to \"InProgress\" state. This happens whenever a " +
+                "dialogue sequence reaches that part/node, and its content it's about " +
+                "to be shown on the dialog UI.";
         }
 
-        // Update is called once per frame
-        void Update()
+        protected override void DefinedPort(IUnitPort port, UnitPortDescription description)
         {
-        
+            base.DefinedPort(port, description);
         }
     }
 }
