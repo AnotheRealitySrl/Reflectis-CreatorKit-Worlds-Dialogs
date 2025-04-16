@@ -35,7 +35,7 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             {
                 dialogSystemReference = flow.GetValue<DialogSystem>(DialogSystemReference);
             }
-            dialogSystemReference.dialogSystemReady.AddListener(OnDialogPathEnded);
+            dialogSystemReference.dialogPathEnded.AddListener(OnDialogPathEnded);
         }
 
         public override EventHook GetHook(GraphReference reference)
@@ -49,7 +49,7 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
         {
             base.Uninstantiate(instance);
 
-            dialogSystemReference.dialogSystemReady.RemoveListener(OnDialogPathEnded);
+            dialogSystemReference.dialogPathEnded.RemoveListener(OnDialogPathEnded);
         }
 
         private void OnDialogPathEnded()
