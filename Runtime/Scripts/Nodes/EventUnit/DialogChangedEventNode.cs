@@ -1,5 +1,7 @@
+using Reflectis.SDK.Core.VisualScripting;
 using Reflectis.SDK.Dialogs;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
@@ -7,15 +9,11 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
     [UnitSurtitle("Dialogs")]
     [UnitShortTitle("Dialog Changed")]
     [UnitCategory("Events\\Reflectis")]
-    public class DialogChangedEventNode : EventUnit<DialogNode>
+    public class DialogChangedEventNode : UnityEventUnit<DialogNode, DialogNode>
     {
         public static string eventName = "DialogChanged";
 
         protected override bool register => true;
-
-        protected GraphReference graphReference;
-
-        protected DialogSystem dialogSystemReference;
 
         [DoNotSerialize]
         [PortLabel("Dialog System")]
@@ -32,21 +30,8 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             ChangedDialogNode = ValueOutput<DialogNode>(nameof(ChangedDialogNode));
         }
 
-        public override void Instantiate(GraphReference instance)
-        {
-            base.Instantiate(instance);
-
-            using (var flow = Flow.New(instance))
-            {
-                dialogSystemReference = flow.GetValue<DialogSystem>(DialogSystemReference);
-            }
-            dialogSystemReference.dialogChanged.AddListener(OnDialogChanged);
-        }
-
         public override EventHook GetHook(GraphReference reference)
         {
-            graphReference = reference;
-
             return new EventHook(eventName);
         }
 
@@ -55,16 +40,15 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             flow.SetValue(ChangedDialogNode, args);
         }
 
-        public override void Uninstantiate(GraphReference instance)
-        {
-            base.Uninstantiate(instance);
 
-            dialogSystemReference.dialogChanged.RemoveListener(OnDialogChanged);
+        protected override UnityEvent<DialogNode> GetEvent(GraphReference reference)
+        {
+            return Flow.New(reference).GetValue<DialogSystem>(DialogSystemReference).dialogChanged;
         }
 
-        private void OnDialogChanged(DialogNode node)
+        protected override DialogNode GetArguments(GraphReference reference, DialogNode dialogNode)
         {
-            Trigger(graphReference, node);
+            return dialogNode;
         }
     }
 }
