@@ -1,5 +1,7 @@
+using Reflectis.SDK.Core.VisualScripting;
 using Reflectis.SDK.Dialogs;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
@@ -7,15 +9,11 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
     [UnitSurtitle("Dialogs")]
     [UnitShortTitle("On Dialog Node In Progress")]
     [UnitCategory("Events\\Reflectis")]
-    public class OnDialogNodeInProgressEventNode : EventUnit<Null>
+    public class OnDialogNodeInProgressEventNode : UnityEventUnit<Null>
     {
         public static string eventName = "OnDialogNodeInProgress";
 
         protected override bool register => true;
-
-        protected GraphReference graphReference;
-
-        protected DialogPart dialogPartReference;
 
         [DoNotSerialize]
         [PortLabel("Dialog Part")]
@@ -27,34 +25,20 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             DialogPartReference = ValueInput<DialogSystem>(nameof(DialogPartReference));
         }
 
-        public override void Instantiate(GraphReference instance)
-        {
-            base.Instantiate(instance);
-
-            using (var flow = Flow.New(instance))
-            {
-                dialogPartReference = flow.GetValue<DialogPart>(DialogPartReference);
-            }
-            dialogPartReference.OnDialogInProgress.AddListener(OnDialogNodeInProgress);
-        }
 
         public override EventHook GetHook(GraphReference reference)
         {
-            graphReference = reference;
-
             return new EventHook(eventName);
         }
 
-        public override void Uninstantiate(GraphReference instance)
+        protected override UnityEvent GetEvent(GraphReference reference)
         {
-            base.Uninstantiate(instance);
-
-            dialogPartReference.OnDialogInProgress.RemoveListener(OnDialogNodeInProgress);
+            return Flow.New(reference).GetValue<DialogPart>(DialogPartReference).OnDialogInProgress;
         }
 
-        private void OnDialogNodeInProgress()
+        protected override Null GetArguments(GraphReference reference)
         {
-            Trigger(graphReference, null);
+            return null;
         }
     }
 }

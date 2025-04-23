@@ -1,5 +1,8 @@
+using Reflectis.SDK.Core.VisualScripting;
 using Reflectis.SDK.Dialogs;
 using Unity.VisualScripting;
+using UnityEngine.Events;
+using static Reflectis.SDK.Dialogs.DialogNode;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
@@ -7,15 +10,11 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
     [UnitSurtitle("Dialogs")]
     [UnitShortTitle("Dialog Node Status Changed")]
     [UnitCategory("Events\\Reflectis")]
-    public class OnDialogNodeStatusChangedEventNode : EventUnit<(DialogNode.DialogStatus, DialogNode.DialogStatus)>
+    public class OnDialogNodeStatusChangedEventNode : UnityEventUnit<(DialogStatus, DialogStatus), DialogStatus>
     {
         public static string eventName = "OnDialogNodeStatusChanged";
 
         protected override bool register => true;
-
-        protected GraphReference graphReference;
-
-        protected DialogPart dialogPartReference;
 
         [DoNotSerialize]
         [PortLabel("Dialog Part")]
@@ -37,21 +36,8 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             NewDialogStatus = ValueOutput<DialogNode.DialogStatus>(nameof(NewDialogStatus));
         }
 
-        public override void Instantiate(GraphReference instance)
-        {
-            base.Instantiate(instance);
-
-            using (var flow = Flow.New(instance))
-            {
-                dialogPartReference = flow.GetValue<DialogPart>(DialogPartReference);
-            }
-            dialogPartReference.Node.onStatusChanged.AddListener(OnDialogNodeStatusChanged);
-        }
-
         public override EventHook GetHook(GraphReference reference)
         {
-            graphReference = reference;
-
             return new EventHook(eventName);
         }
 
@@ -61,16 +47,15 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             flow.SetValue(NewDialogStatus, args.Item2);
         }
 
-        public override void Uninstantiate(GraphReference instance)
-        {
-            base.Uninstantiate(instance);
 
-            dialogPartReference.Node.onStatusChanged.RemoveListener(OnDialogNodeStatusChanged);
+        protected override UnityEvent<DialogStatus> GetEvent(GraphReference reference)
+        {
+            return Flow.New(reference).GetValue<DialogPart>(DialogPartReference).Node.onStatusChanged;
         }
 
-        private void OnDialogNodeStatusChanged(DialogNode.DialogStatus status)
-        { 
-            Trigger(graphReference, (status, dialogPartReference.Node.Status));
+        protected override (DialogStatus, DialogStatus) GetArguments(GraphReference reference, DialogStatus eventData)
+        {
+            return (eventData, Flow.New(reference).GetValue<DialogPart>(DialogPartReference).Node.Status);
         }
     }
 }

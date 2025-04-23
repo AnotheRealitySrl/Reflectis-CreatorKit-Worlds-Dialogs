@@ -1,5 +1,7 @@
+using Reflectis.SDK.Core.VisualScripting;
 using Reflectis.SDK.Dialogs;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 namespace Reflectis.CreatorKit.Worlds.Dialogs
 {
@@ -7,13 +9,11 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
     [UnitSurtitle("Dialogs")]
     [UnitShortTitle("Dialog Path Ended")]
     [UnitCategory("Events\\Reflectis")]
-    public class DialogPathEndedEventNode : EventUnit<Null>
+    public class DialogPathEndedEventNode : UnityEventUnit<Null>
     {
         public static string eventName = "DialogPathEnded";
 
         protected override bool register => true;
-
-        protected GraphReference graphReference;
 
         protected DialogSystem dialogSystemReference;
 
@@ -27,34 +27,18 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
             DialogSystemReference = ValueInput<DialogSystem>(nameof(DialogSystemReference));
         }
 
-        public override void Instantiate(GraphReference instance)
-        {
-            base.Instantiate(instance);
-
-            using (var flow = Flow.New(instance))
-            {
-                dialogSystemReference = flow.GetValue<DialogSystem>(DialogSystemReference);
-            }
-            dialogSystemReference.dialogPathEnded.AddListener(OnDialogPathEnded);
-        }
-
         public override EventHook GetHook(GraphReference reference)
         {
-            graphReference = reference;
-
-            return new EventHook(eventName);
+            return eventName;
+        }
+        protected override UnityEvent GetEvent(GraphReference reference)
+        {
+            return Flow.New(reference).GetValue<DialogSystem>(DialogSystemReference).dialogPathEnded;
         }
 
-        public override void Uninstantiate(GraphReference instance)
+        protected override Null GetArguments(GraphReference reference)
         {
-            base.Uninstantiate(instance);
-
-            dialogSystemReference.dialogPathEnded.RemoveListener(OnDialogPathEnded);
-        }
-
-        private void OnDialogPathEnded()
-        {
-            Trigger(graphReference, null);
+            return null;
         }
     }
 }
