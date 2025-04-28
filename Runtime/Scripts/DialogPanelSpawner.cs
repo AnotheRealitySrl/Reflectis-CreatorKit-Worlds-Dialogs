@@ -29,8 +29,20 @@ namespace Reflectis.CreatorKit.Worlds.Dialogs
         {
             if (obj.Status == AsyncOperationStatus.Succeeded)
             {
-                Instantiate(obj.Result).GetComponent<DialogPanelControllerGeneric>().SetSettings(charactersPerSecond, interpunctuationDelay, enableSkip, quickSkip, skipSpeedup,
-            showPlayerNickname, showNpcNickname, showPlayerAvatarContainer, showNpcAvatarContainer, useReflectisNickname, useReflectisAvatar);
+                var go = Instantiate(obj.Result);
+                go.transform.SetParent(this.transform);
+                go.GetComponent<DialogPanelControllerGeneric>().SetSettings(
+                    charactersPerSecond,
+                    interpunctuationDelay,
+                    enableSkip,
+                    quickSkip,
+                    skipSpeedup,
+                    showPlayerNickname,
+                    showNpcNickname,
+                    showPlayerAvatarContainer,
+                    showNpcAvatarContainer,
+                    useReflectisNickname,
+                    useReflectisAvatar);
             }
             else
             {
